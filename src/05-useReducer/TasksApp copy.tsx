@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 
 import { Plus, Trash2, Check } from 'lucide-react';
 
@@ -6,31 +6,49 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getTasksInitialState, taskReducer } from './reducer/tasksReducer';
 
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
 
 export const TasksApp = () => {
-
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
-  // const [todos, setTodos] = useState<Todo[]>([]);
-
-  const [state, dispatch] = useReducer(taskReducer, getTasksInitialState());
 
   const addTodo = () => {
     if(inputValue.length == 0) return;
 
-    dispatch({ type: 'ADD_TODO', payload: inputValue })
+    const newTodo: Todo = {
+      id: Date.now(),
+      text: inputValue.trim(),
+      completed: false
+    }
 
-    setInputValue('');
+    setTodos([newTodo, ...todos])
 
   };
 
   const toggleTodo = (id: number) => {
-    dispatch({ type: 'TOGGLE_TODO', payload: id })
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
   };
 
   const deleteTodo = (id: number) => {
-    dispatch({ type: 'DELETE_TODO', payload: id })
+    
+    // let copiaTodos: Todo[] = todos.map(todo => ({ ...todo }));
+    // const filtrarPorId = (obj: Todo) => {
+    //   return obj.id != id;
+    // }
+    // copiaTodos = copiaTodos.filter(filtrarPorId);
+    // setTodos([...copiaTodos]);
+
+    const updatedTodos = todos.filter((todo) => todo.id != id);
+    setTodos(updatedTodos);
+
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -39,8 +57,6 @@ export const TasksApp = () => {
     }
 
   };
-
-  const todos = state.todos;
 
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;

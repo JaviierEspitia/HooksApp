@@ -17,12 +17,20 @@ export type TaskAction =
 | { type: 'DELETE_TODO', payload: number }; // recibo el id que eliminare
 
 export const getTasksInitialState = (): TaskState => {
-  return {
-    todos: [],
-    completed: 0,
-    pending: 0,
-    length: 0
+
+  const localStorageState = localStorage.getItem('tasks-state');
+
+  if(!localStorageState){
+    return {
+      todos: [],
+      completed: 0,
+      pending: 0,
+      length: 0
+    }
   }
+
+  return JSON.parse(localStorageState);
+  
 }
 
 export const taskReducer = (state:TaskState, action: TaskAction):TaskState => {

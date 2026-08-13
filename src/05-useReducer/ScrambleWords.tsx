@@ -71,6 +71,7 @@ export const ScrambleWords = () => {
       setCurrentWord(updateWords[0]);
       setScrambledWord(scrambleWord(updateWords[0]));
       setGuess('');
+      return;
     }
 
     setErrorCounter(errorCounter + 1);

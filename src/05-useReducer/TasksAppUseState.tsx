@@ -38,17 +38,8 @@ export const TasksApp = () => {
   };
 
   const deleteTodo = (id: number) => {
-    
-    // let copiaTodos: Todo[] = todos.map(todo => ({ ...todo }));
-    // const filtrarPorId = (obj: Todo) => {
-    //   return obj.id != id;
-    // }
-    // copiaTodos = copiaTodos.filter(filtrarPorId);
-    // setTodos([...copiaTodos]);
-
     const updatedTodos = todos.filter((todo) => todo.id != id);
     setTodos(updatedTodos);
-
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

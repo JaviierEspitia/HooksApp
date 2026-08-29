@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Toaster } from 'sonner';
 // import { HooksApp } from './HooksApp'
@@ -11,7 +11,10 @@ import { Toaster } from 'sonner';
 // import { ScrambleWords } from './05-useReducer/ScrambleWords';
 // import { MemoHook } from './06-memos/MemoHook'
 // import { MemoCounter } from './06-memos/MemoCounter'
-import { InstagromApp } from './07-useOptimistic/InstagromApp'
+// import { InstagromApp } from './07-useOptimistic/InstagromApp'
+
+import { getUserAction } from './08-use-suspense/api/get-user.action';
+import { ClientInformation } from './08-use-suspense/ClientInformation';
 
 
 import './index.css'
@@ -28,6 +31,13 @@ createRoot(document.getElementById('root')!).render(
     {/* {<ScrambleWords/>} */}
     {/* { <MemoHook/> } */}
     {/* <MemoCounter/> */}
-    <InstagromApp/>
+    {/* <InstagromApp/> */}
+    <Suspense fallback={
+      <div className="bg-gradient flex flex-col">
+        <h2 className='text-2xl'>Cargando...</h2>
+      </div>
+    }>
+      <ClientInformation getUser={getUserAction(1)} />
+    </Suspense>
   </StrictMode>,
 )
